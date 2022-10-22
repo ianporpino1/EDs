@@ -88,7 +88,7 @@ void Vetor_Circular<T>::remover(int posicao)
 template<class T>
 T& Vetor_Circular<T>::acessar(int posicao)
 {
-    if(posicao>tamanho)
+    if(posicao>capacidade)
     {
         std::cout<<"Erro: Posicao Invalida"<<std::endl;
 		exit(EXIT_FAILURE);	
@@ -106,7 +106,7 @@ void Vetor_Circular<T>::inserir_inicio(T novo)
 		exit(EXIT_FAILURE);
     }
     
-    bias=(bias-1)%capacidade;
+    bias=(bias)%capacidade;
     elementos[bias]=novo;
     tamanho++;
 }
