@@ -10,7 +10,7 @@ class Vetor{
         int tamanho;
         int capacidade;
     public:
-        Vetor(int n_elementos=20);
+        Vetor(int n_capacidade=20);
         ~Vetor();
         void inserir(T novo, int posicao);
         void remover(int posicao);

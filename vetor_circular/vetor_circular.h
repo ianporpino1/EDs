@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+
 template <class T>
 class Vetor_Circular{
     private:
@@ -10,8 +11,9 @@ class Vetor_Circular{
         int tamanho;
         int capacidade;
         int bias;
+        int mod;
     public:
-        Vetor_Circular(int n_elementos=20);
+        Vetor_Circular(int n_capacidade=20);
         ~Vetor_Circular();
 
         void inserir(T novo, int posicao);
@@ -33,6 +35,7 @@ Vetor_Circular<T>::Vetor_Circular(int n_capacidade)
     capacidade=n_capacidade;
     elementos=new T[n_capacidade];
     bias=0;
+    mod=0;
 }
 
 
@@ -88,27 +91,14 @@ void Vetor_Circular<T>::remover(int posicao)
 template<class T>
 T& Vetor_Circular<T>::acessar(int posicao)
 {
-    if(posicao>capacidade)
+    if(tamanho==0)
     {
         std::cout<<"Erro: Posicao Invalida"<<std::endl;
 		exit(EXIT_FAILURE);	
     }
-    return elementos[(posicao+bias)/capacidade];
-}
-
-
-template<class T>
-void Vetor_Circular<T>::inserir_inicio(T novo)
-{
-    if(tamanho==capacidade)
-    {
-        std::cout<<"Erro: O Vetor esta cheio"<<std::endl;
-		exit(EXIT_FAILURE);
-    }
     
-    bias=(bias)%capacidade;
-    elementos[bias]=novo;
-    tamanho++;
+    mod=(((bias+posicao)%capacidade)+capacidade)%capacidade;
+    return elementos[mod];
 }
 
 
@@ -121,7 +111,22 @@ void Vetor_Circular<T>::inserir_final(T novo)
 		exit(EXIT_FAILURE);
     }
     
-    elementos[(bias+tamanho)%capacidade]=novo;
+    bias=(((bias-1)%capacidade)+capacidade)%capacidade;
+    elementos[bias]=novo;
+    tamanho++;
+}
+
+
+template<class T>
+void Vetor_Circular<T>::inserir_inicio(T novo)
+{
+    if(tamanho==capacidade)
+    {
+        std::cout<<"Erro: O Vetor esta cheio"<<std::endl;
+		exit(EXIT_FAILURE);
+    }
+    
+    elementos[(((bias+tamanho)%capacidade)+capacidade)%capacidade]=novo;
     tamanho++;
 }
 
@@ -136,7 +141,7 @@ void Vetor_Circular<T>::remover_inicio()
     }
 
     tamanho--;
-    bias=(bias+1)%capacidade;
+    bias=(((bias+1)%capacidade)+capacidade)%capacidade;
 
 }
 
