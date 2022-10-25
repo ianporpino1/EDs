@@ -239,13 +239,13 @@ void Lista_Ligada<T>::printList()
 {
     no<T>* temp = head;
   
-    // Check for empty list.
+    
     if (head == NULL) {
         std::cout << "List empty" << std::endl;
         return;
     }
   
-    // Traverse the list.
+    
     while (temp != NULL) {
         std::cout << temp->dado << " ";
         temp = temp->prox;
